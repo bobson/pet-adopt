@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import useDropdown from "./useDropdown";
 import pet, { ANIMALS } from "@frontendmasters/pet";
 import Results from "./Results";
+import ThemeContext from "./ThemeContext";
 
 const SearchParams = () => {
   const [location, setLocation] = useState("Seattle, WA");
   const [breeds, setBreeds] = useState([]);
   const [animal, AnimalDropdown] = useDropdown("Animal", "dog", ANIMALS);
-  const [breed, BreedDropdown, setBreed] = useDropdown("Breed", "", breeds);
+  const [breed, BreedDropdown] = useDropdown("Breed", "", breeds);
   const [pets, setPets] = useState([]);
+  const [theme, setTheme] = useContext(ThemeContext);
 
-  const requestAnimals = async () => {
+  const requestPets = async () => {
     const { animals } = await pet.animals({
       location,
       breed,
@@ -28,7 +30,8 @@ const SearchParams = () => {
       if (breeds) {
         const breedStrings = breeds.map(({ name }) => name);
         setBreeds(breedStrings);
-      } else setBreeds([]);
+      }
+      // else setBreeds([]);
     };
     requestBreeds();
 
@@ -39,19 +42,17 @@ const SearchParams = () => {
     // }, console.error);
 
     //cleanup function
-    return () => {
-      setBreeds([]), setBreed(""), setPets([]);
-    };
+    // return () => {
+    //   setBreeds([]), setBreed(""), setPets([]);
+    // };
   }, [animal]);
-
-  console.log(animal);
 
   return (
     <div className="search-params">
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          requestAnimals();
+          requestPets();
         }}
       >
         <label htmlFor="location">
@@ -64,7 +65,23 @@ const SearchParams = () => {
         </label>
         <AnimalDropdown />
         <BreedDropdown />
-        <button type="submit">Submit</button>
+        <label htmlFor="theme">
+          Button Theme
+          <select
+            value={theme}
+            onChange={(e) => setTheme(e.target.value)}
+            onBlur={(e) => setTheme(e.target.value)}
+          >
+            <option value={"#ad343e"}>Default</option>
+            <option value="peru">Peru</option>
+            <option value="darkblue">Datk Blue</option>
+            <option value="mediumorchid">Medium Orchid</option>
+            <option value="chartreuse">Chartreuse</option>
+          </select>
+        </label>
+        <button style={{ backgroundColor: theme }} type="submit">
+          Submit
+        </button>
       </form>
       {pets.length ? <Results pets={pets} /> : null}
     </div>

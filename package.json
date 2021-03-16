@@ -10,7 +10,7 @@
     "lint": "eslint \"src/**/*.{js,jsx}\" --quiet"
   },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
+    "@babel/core": "^7.13.10",
     "cross-env": "^7.0.3",
     "eslint": "^7.22.0",
     "eslint-config-prettier": "^8.1.0",
