@@ -4,6 +4,7 @@
   "main": "index.html",
   "license": "MIT",
   "scripts": {
+    "clear": "rm -rf .cache/ dist/",
     "dev": "parcel src/index.html",
     "dev:mock": "cross-env PET_MOCK=mock yarn dev",
     "format": "prettier \"src/**/*.{js,html}\" --write",
@@ -11,7 +12,6 @@
     "build": "parcel build src/index.html"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.10",
     "cross-env": "^7.0.3",
     "eslint": "^7.22.0",
     "eslint-config-prettier": "^8.1.0",
